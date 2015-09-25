@@ -5,24 +5,30 @@ from ckan.lib.dictization import table_dictize
 from ckan.logic import NotFound, check_access, ValidationError
 
 import ckan.lib.navl.dictization_functions as df
+from ckan.lib.navl.validators import (ignore_missing,
+                                      ignore_empty,
+                                      not_empty,
+                                      not_missing,
+                                      )
+
 import ckan.model as model
 
 log = logging.getLogger(__name__)
 
 schema = {
-    'id': ['ignore_empty', unicode],
-    'address': ['not_empty', unicode],
-    'topic': ['not_empty', unicode],
-    'user_id': ['ignore_missing', unicode],
-    'created_at': ['ignore_missing', 'isodate']
+    'id': [ignore_empty, unicode],
+    'address': [not_empty, unicode],
+    'topic': [not_empty, unicode],
+    'user_id': [ignore_missing, unicode],
+    'created_at': [ignore_missing, 'isodate']
 }
 
 schema_get = {
-    'id': ['not_empty', unicode]
+    'id': [not_empty, unicode]
 }
 
 schema_list = {
-    'topic': ['not_empty', unicode]
+    'topic': [not_empty, unicode]
 }
 
 def webhook_create(context, data_dict):
